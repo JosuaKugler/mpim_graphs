@@ -43,7 +43,7 @@ def is_feynman_isomorpic(G1, G2):
     nm = iso.categorical_node_match("color", "blue")
     return nx.is_isomorphic(G1, G2, node_match=nm)
 
-def add_loop(graphs_before):
+def add_bruteforce_loop(graphs_before):
     solutions = []
     for graph in graphs_before:
         for new_graph in raw_possibilities_with_one_more_loop(graph):
@@ -65,7 +65,8 @@ if __name__ == "__main__":
     holes_dict = {0:[G0]}
     max_number_of_holes = 5
     for i in range(max_number_of_holes):
-        holes_dict[i+1] = add_loop(holes_dict[i]) #i+1 is the new number of holes
+        holes_dict[i+1] = add_bruteforce_loop(holes_dict[i]) #i+1 is the new number of holes
+
     if write_files:
         for i in holes_dict:
             target_dir = os.path.join(dirname, f'graphs_with_{i}_holes')
@@ -79,3 +80,6 @@ if __name__ == "__main__":
                 if filename[-4:] == ".dot":
                     newfilename = filename[:-4] + '.png'
                     os.system(f'neato -T png {os.path.join(target_dir, filename)} > {os.path.join(target_dir, newfilename)}')
+    else:
+        for i in holes_dict:
+            print(i, len(holes_dict[i]))
