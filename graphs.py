@@ -66,17 +66,16 @@ if __name__ == "__main__":
     max_number_of_holes = 5
     for i in range(max_number_of_holes):
         holes_dict[i+1] = add_loop(holes_dict[i]) #i+1 is the new number of holes
-
-    for i in holes_dict:
-        if write_files:
+    if write_files:
+        for i in holes_dict:
             target_dir = os.path.join(dirname, f'graphs_with_{i}_holes')
-        if not os.path.exists(target_dir):
-            os.mkdir(target_dir)
-        # write to .dot files
-        for j, graph in enumerate(holes_dict[i]):
-            write_dot(graph, os.path.join(target_dir, f'graph{j}.dot'))
-        # compile .dot files to .pngs
-        for filename in os.listdir(target_dir):
-            if filename[-4:] == ".dot":
-                newfilename = filename[:-4] + '.png'
-                os.system(f'neato -T png {os.path.join(target_dir, filename)} > {os.path.join(target_dir, newfilename)}')
+            if not os.path.exists(target_dir):
+                os.mkdir(target_dir)
+            # write to .dot files
+            for j, graph in enumerate(holes_dict[i]):
+                write_dot(graph, os.path.join(target_dir, f'graph{j}.dot'))
+            # compile .dot files to .pngs
+            for filename in os.listdir(target_dir):
+                if filename[-4:] == ".dot":
+                    newfilename = filename[:-4] + '.png'
+                    os.system(f'neato -T png {os.path.join(target_dir, filename)} > {os.path.join(target_dir, newfilename)}')
