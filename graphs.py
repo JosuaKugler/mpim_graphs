@@ -51,6 +51,11 @@ def add_loop(graphs_before):
     return eliminate_isomorphic_solutions(solutions)
 
 if __name__ == "__main__":
+    write_files = True
+    if write_files:
+        dirname = 'visualization'
+        if not os.path.exists(dirname):
+            os.mkdir(dirname)
     G0 = nx.MultiGraph()
     G0.add_nodes_from([
         (0, {"color":"red"}),
@@ -58,12 +63,13 @@ if __name__ == "__main__":
     ])
     G0.add_edge(0,1)
     holes_dict = {0:[G0]}
-    max_number_of_holes = 6
+    max_number_of_holes = 5
     for i in range(max_number_of_holes):
         holes_dict[i+1] = add_loop(holes_dict[i]) #i+1 is the new number of holes
 
     for i in holes_dict:
-        target_dir = f'visualization/graphs_with_{i}_holes'
+        if write_files:
+            target_dir = os.path.join(dirname, f'graphs_with_{i}_holes')
         if not os.path.exists(target_dir):
             os.mkdir(target_dir)
         # write to .dot files
