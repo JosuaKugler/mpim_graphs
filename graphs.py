@@ -62,9 +62,18 @@ if __name__ == "__main__":
         (1, {"color":"green"})
     ])
     G0.add_edge(0,1)
-    holes_dict = {0:[G0]}
-    max_number_of_holes = 7
-    for i in range(max_number_of_holes):
+    two_connected = True
+    if two_connected:
+        G0 = nx.MultiGraph()
+        G0.add_nodes_from([
+            (0, {"color":"red"}),
+            (1, {"color":"green"})
+        ])
+        G0.add_edge(0,1)
+        G0.add_edge(0,1)
+    holes_dict = {1:[G0]}
+    max_number_of_holes = 6
+    for i in range(1,max_number_of_holes):
         holes_dict[i+1] = add_bruteforce_loop(holes_dict[i]) #i+1 is the new number of holes
 
     if write_files:
