@@ -1,5 +1,5 @@
 import networkx as nx
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from networkx.drawing.nx_pydot import write_dot
 import networkx.algorithms.isomorphism as iso
 import os
@@ -51,7 +51,7 @@ def add_bruteforce_loop(graphs_before):
     return eliminate_isomorphic_solutions(solutions)
 
 if __name__ == "__main__":
-    write_files = True
+    write_files = False
     if write_files:
         dirname = 'visualization'
         if not os.path.exists(dirname):
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     ])
     G0.add_edge(0,1)
     holes_dict = {0:[G0]}
-    max_number_of_holes = 5
+    max_number_of_holes = 7
     for i in range(max_number_of_holes):
         holes_dict[i+1] = add_bruteforce_loop(holes_dict[i]) #i+1 is the new number of holes
 
