@@ -54,7 +54,6 @@ def matrices(N):
     initial_max_vals = [2,1,1]
     for _ in range(3,N-1):
         initial_max_vals.append(0)
-    print(initial_max_vals)
     previous_rows_list = [[[0] + row] for row in get_filled_rows(initial_max_vals,3)]
     for _ in range(N-2):
         previous_rows_list = get_next_previous_rows_list(previous_rows_list, N)
@@ -77,23 +76,31 @@ def eliminate_isomorphic_solutions(solutions):
     return new_solutions
 
 if __name__ == "__main__":
-    import pprint
-    import os
-    N = 8
+    
+    N = 10
     these_matrices = matrices(N)
+    print(len(these_matrices))
     connected_graph_list = []
     for matrix in these_matrices:
         matrix = np.matrix(matrix)
         ones_matrix = np.multiply(matrix, matrix) % 3
         ones_graph = nx.from_numpy_matrix(ones_matrix)
-        if nx.is_k_edge_connected(ones_graph, 2): # if graph is two connected, use matrix
+        if nx.is_connected(ones_graph) and nx.is_k_edge_connected(ones_graph, 2): # if graph is two connected, use matrix
             connected_graph_list.append(
                 nx.from_numpy_matrix(np.matrix(matrix), parallel_edges=True, create_using = nx.MultiGraph())
                 )
     
-    print(len(connected_graph_list))
     graph_list = eliminate_isomorphic_solutions(connected_graph_list)
-    os.system("rm test*")
-    for i, G in enumerate(graph_list):
-        write_dot(G, f'test{i}.dot')
-        os.system(f'neato -T png test{i}.dot > test{i}.png')
+
+    write = True
+    if not write:
+        for graph in graph_list:
+            if nx.is_k_edge_connected(graph, 2):
+                nx.draw(graph)
+                plt.show()
+    else:
+        import os
+        os.system("rm test*")
+        for i, G in enumerate(graph_list):
+            write_dot(G, f'test{i}.dot')
+            os.system(f'neato -T png test{i}.dot > test{i}.png')
