@@ -1,0 +1,8 @@
+	
+Quartic graphs don't have bridges (https://math.stackexchange.com/questions/1580470/2n-regular-graphs-dont-have-bridges)
+-> it suffices to check for connectedness.
+
+the number of connected quartic multigraphs is 
+- loops allowed: https://oeis.org/A085549
+- loops verboten: https://oeis.org/A129417
+simple connected quartic graphs: https://oeis.org/A006820 
